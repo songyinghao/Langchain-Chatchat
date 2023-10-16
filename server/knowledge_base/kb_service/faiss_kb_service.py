@@ -61,7 +61,8 @@ class FaissKBService(KBService):
                   embeddings: Embeddings = None,
                   ) -> List[Document]:
         with self.load_vector_store().acquire() as vs:
-            docs = vs.similarity_search_with_score(query, k=top_k, score_threshold=score_threshold)
+            #docs = vs.similarity_search_with_score(query, k=top_k, score_threshold=score_threshold)
+            docs = vs.similarity_search_with_score(query, k=top_k)
         return docs
 
     def do_add_doc(self,

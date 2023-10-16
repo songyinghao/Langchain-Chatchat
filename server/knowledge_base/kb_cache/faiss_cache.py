@@ -129,30 +129,30 @@ if __name__ == "__main__":
     # for name in kb_names:
     #     memo_faiss_pool.load_vector_store(name)
 
-    def worker(vs_name: str, name: str):
-        vs_name = "samples"
-        time.sleep(random.randint(1, 5))
-        embeddings = embeddings_pool.load_embeddings()
-        r = random.randint(1, 3)
+    # def worker(vs_name: str, name: str):
+    #     vs_name = "samples"
+    #     time.sleep(random.randint(1, 5))
+    #     embeddings = embeddings_pool.load_embeddings()
+    #     r = random.randint(1, 3)
 
-        with kb_faiss_pool.load_vector_store(vs_name).acquire(name) as vs:
-            if r == 1: # add docs
-                ids = vs.add_texts([f"text added by {name}"], embeddings=embeddings)
-                pprint(ids)
-            elif r == 2: # search docs
-                docs = vs.similarity_search_with_score(f"{name}", top_k=3, score_threshold=1.0)
-                pprint(docs)
-        if r == 3: # delete docs
-            logger.warning(f"清除 {vs_name} by {name}")
-            kb_faiss_pool.get(vs_name).clear()
+    #     with kb_faiss_pool.load_vector_store(vs_name).acquire(name) as vs:
+    #         if r == 1: # add docs
+    #             ids = vs.add_texts([f"text added by {name}"], embeddings=embeddings)
+    #             pprint(ids)
+    #         elif r == 2: # search docs
+    #             docs = vs.similarity_search_with_score(f"{name}", top_k=3, score_threshold=1.0)
+    #             pprint(docs)
+    #     if r == 3: # delete docs
+    #         logger.warning(f"清除 {vs_name} by {name}")
+    #         kb_faiss_pool.get(vs_name).clear()
 
-    threads = []
-    for n in range(1, 30):
-        t = threading.Thread(target=worker,
-                             kwargs={"vs_name": random.choice(kb_names), "name": f"worker {n}"},
-                             daemon=True)
-        t.start()
-        threads.append(t)
+    # threads = []
+    # for n in range(1, 30):
+    #     t = threading.Thread(target=worker,
+    #                          kwargs={"vs_name": random.choice(kb_names), "name": f"worker {n}"},
+    #                          daemon=True)
+    #     t.start()
+    #     threads.append(t)
 
-    for t in threads:
-        t.join()
+    # for t in threads:
+    #     t.join()
